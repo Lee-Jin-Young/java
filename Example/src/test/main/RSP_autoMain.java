@@ -8,67 +8,26 @@ public class RSP_autoMain {
 		int userCnt = 0;
 		int comCnt = 0;
 		int sameCnt = 0;
+		String[] rsp = {"가위","바위","보"};
 
 		for (int i = 0; i < 100; i++) {
 
 			int user = ran.nextInt(1, 3);
 			int com = ran.nextInt(1, 3);
 
-			if (user == 1) {
-				switch (com) {
-				case 1:
-					System.out.println("user : 가위, com : 가위");
-					System.out.println("무승부");
-					sameCnt++;
-					break;
-				case 2:
-					System.out.println("user : 가위, com : 바위");
-					System.out.println("COM승");
-					comCnt++;
-					break;
-				case 3:
-					System.out.println("user : 가위, com : 보");
-					System.out.println("USER승");
-					userCnt++;
-					break;
-				}
-			} else if (user == 2) {
-				switch (com) {
-				case 1:
-					System.out.println("user : 바위, com : 가위");
-					System.out.println("USER승");
-					userCnt++;
-					break;
-				case 2:
-					System.out.println("user : 바위, com : 바위");
-					System.out.println("무승부");
-					sameCnt++;
-					break;
-				case 3:
-					System.out.println("user : 바위, com : 보");
-					System.out.println("COM승");
-					comCnt++;
-					break;
-				}
+			if (user == com) {
+				System.out.printf("유저는 %s, 컴퓨터는 %s 따라서 ", rsp[user], rsp[com]);
+				System.out.println("무승부");
+				sameCnt++;
+			} else if ((user + 1) % 3 == com) {
+				System.out.printf("유저는 %s, 컴퓨터는 %s 따라서 ", rsp[user], rsp[com]);
+				System.out.println("패");
+				comCnt++;
 			} else {
-				switch (com) {
-				case 1:
-					System.out.println("user : 보, com : 가위");
-					System.out.println("COM승");
-					comCnt++;
-					break;
-				case 2:
-					System.out.println("user : 보, com : 바위");
-					System.out.println("USER승");
-					userCnt++;
-					break;
-				case 3:
-					System.out.println("user : 보, com : 보");
-					System.out.println("무승부");
-					sameCnt++;
-					break;
-				}
-			}			
+				System.out.printf("유저는 %s, 컴퓨터는 %s 따라서 ", rsp[user], rsp[com]);
+				System.out.println("승");
+				userCnt++;
+			}
 		}
 		System.out.printf("%d승 %d무 %d패\n",userCnt,sameCnt,comCnt);
 	}
