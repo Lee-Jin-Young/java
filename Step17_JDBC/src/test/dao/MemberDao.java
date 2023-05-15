@@ -30,7 +30,7 @@ public class MemberDao {
 		} finally {
 			try {
 				if(pstmt!=null) pstmt.close();
-				if(conn!=null) pstmt.close();
+				if(conn!=null) conn.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			} //finally-try
@@ -45,12 +45,13 @@ public class MemberDao {
 			try {
 				conn = new DBConnect().getConn();
 				
-				String sql = "INSERT INTO member"
-						+ " (num, name, addr)" 
-						+ " VALUES( member_seq.NEXTVAL, ?, ?)";
+				String sql = "UPDATE member"
+						+ " SET name=?, addr=?" 
+						+ " WHERE num=?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, dto.getName());
 				pstmt.setString(2, dto.getAddr());
+				pstmt.setInt(3, dto.getNum());
 			
 				rowCount = pstmt.executeUpdate();
 			} catch (Exception e) {
@@ -58,7 +59,7 @@ public class MemberDao {
 			} finally {
 				try {
 					if(pstmt!=null) pstmt.close();
-					if(conn!=null) pstmt.close();
+					if(conn!=null) conn.close();
 				} catch(Exception e) {
 					e.printStackTrace();
 				} //finally-try
@@ -73,12 +74,11 @@ public class MemberDao {
 			try {
 				conn = new DBConnect().getConn();
 				
-				String sql = "INSERT INTO member"
-						+ " (num, name, addr)" 
-						+ " VALUES( member_seq.NEXTVAL, ?, ?)";
+				conn = new DBConnect().getConn();
+				String sql = "DELETE FROM member"
+						+ " WHERE num=?";
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, dto.getName());
-				pstmt.setString(2, dto.getAddr());
+				pstmt.setInt(1, dto.getNum());
 			
 				rowCount = pstmt.executeUpdate();
 			} catch (Exception e) {
@@ -86,7 +86,7 @@ public class MemberDao {
 			} finally {
 				try {
 					if(pstmt!=null) pstmt.close();
-					if(conn!=null) pstmt.close();
+					if(conn!=null) conn.close();
 				} catch(Exception e) {
 					e.printStackTrace();
 				} //finally-try
