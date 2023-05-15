@@ -60,7 +60,7 @@ public class MyFrame extends JFrame {
 				if(fr!=null) fr.close();
 				
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 
