@@ -11,6 +11,44 @@ import test.util.DBConnect;
 
 public class MemberDao {	
 	public MemberDto getData(int num) {
+		MemberDto dto = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		ResultSet rs = null;
+		
+		try {
+			conn = new DBConnect().getConn();
+			String sql = "SELECT name, addr"
+		               + " FROM member"
+		               + " WHERE num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {				
+				String name = rs.getString("name");
+				String addr = rs.getString("addr");
+				
+				dto = new MemberDto();
+				dto.setNum(num);
+				dto.setName(name);
+				dto.setAddr(addr);
+				
+				return dto;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		} //try
+		
 		return null;
 	}
 	
@@ -29,7 +67,7 @@ public class MemberDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while(rs.next()) {				
 				MemberDto dto = new MemberDto();
 				dto.setNum(rs.getInt("num"));
 				dto.setName(rs.getString("name"));
