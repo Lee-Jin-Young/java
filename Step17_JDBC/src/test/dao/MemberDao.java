@@ -10,87 +10,6 @@ import test.dto.MemberDto;
 import test.util.DBConnect;
 
 public class MemberDao {	
-	public MemberDto getData(int num) {
-		MemberDto dto = null;
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null; 
-		ResultSet rs = null;
-		
-		try {
-			conn = new DBConnect().getConn();
-			String sql = "SELECT name, addr"
-		               + " FROM member"
-		               + " WHERE num=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {				
-				String name = rs.getString("name");
-				String addr = rs.getString("addr");
-				
-				dto = new MemberDto();
-				dto.setNum(num);
-				dto.setName(name);
-				dto.setAddr(addr);
-				
-				return dto;
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(conn!=null) conn.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		} //try
-		
-		return null;
-	}
-	
-	public List<MemberDto> getList() {
-		List<MemberDto> list = new ArrayList<>();
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null; 
-		ResultSet rs = null;
-		
-		try {
-			conn = new DBConnect().getConn();
-			String sql = "SELECT num, name, addr"
-					+ " FROM member"
-					+ " ORDER BY num DESC";
-			pstmt = conn.prepareStatement(sql);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {				
-				MemberDto dto = new MemberDto();
-				dto.setNum(rs.getInt("num"));
-				dto.setName(rs.getString("name"));
-				dto.setAddr(rs.getString("addr"));
-				
-				list.add(dto);
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(conn!=null) conn.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		} //try
-		
-		return list;
-	} //getList
-	
-	
 	//회원 한 명의 정보를 저장 하고 해당 작업의 성공 여부를 리턴하는 메소드
 	public boolean insert(MemberDto dto) {
 		Connection conn = null;
@@ -157,7 +76,7 @@ public class MemberDao {
 		} //update
 		
 		//회원 한 명의 정보를 삭제 하고 해당 작업의 성공 여부를 리턴하는 메소드
-		public boolean delete(MemberDto dto) {
+		public boolean delete(int num) {
 			Connection conn = null;
 			PreparedStatement pstmt = null; 
 			int rowCount = 0; //수행후 변화된 row의 갯수
@@ -168,7 +87,7 @@ public class MemberDao {
 				String sql = "DELETE FROM member"
 						+ " WHERE num=?";
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, dto.getNum());
+				pstmt.setInt(1, num);
 			
 				rowCount = pstmt.executeUpdate();
 			} catch (Exception e) {
@@ -185,5 +104,87 @@ public class MemberDao {
 			//rowCount가 0이라면 F 아니라면 T
 			return rowCount == 0 ? false : true;
 		} //delete
+		
+		//특정 회원의 정보를 불러오는 메소드
+		public MemberDto getData(int num) {
+			MemberDto dto = null;
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null; 
+			ResultSet rs = null;
+			
+			try {
+				conn = new DBConnect().getConn();
+				String sql = "SELECT name, addr"
+			               + " FROM member"
+			               + " WHERE num=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {				
+					String name = rs.getString("name");
+					String addr = rs.getString("addr");
+					
+					dto = new MemberDto();
+					dto.setNum(num);
+					dto.setName(name);
+					dto.setAddr(addr);
+					
+					return dto;
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(rs!=null) rs.close();
+					if(pstmt!=null) pstmt.close();
+					if(conn!=null) conn.close();
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			} //try
+			
+			return null;
+		}
+		
+		//회원의 전체 정보를 리턴하는 메소드
+		public List<MemberDto> getList() {
+			List<MemberDto> list = new ArrayList<>();
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null; 
+			ResultSet rs = null;
+			
+			try {
+				conn = new DBConnect().getConn();
+				String sql = "SELECT num, name, addr"
+						+ " FROM member"
+						+ " ORDER BY num DESC";
+				pstmt = conn.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {				
+					MemberDto dto = new MemberDto();
+					dto.setNum(rs.getInt("num"));
+					dto.setName(rs.getString("name"));
+					dto.setAddr(rs.getString("addr"));
+					
+					list.add(dto);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(rs!=null) rs.close();
+					if(pstmt!=null) pstmt.close();
+					if(conn!=null) conn.close();
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			} //try
+			
+			return list;
+		} //getList
 		
 }

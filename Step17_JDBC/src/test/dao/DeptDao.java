@@ -136,6 +136,8 @@ public class DeptDao {
 				dto.setDeptno(rs.getInt("deptno"));
 				dto.setDname(rs.getString("dname"));
 				dto.setLoc(rs.getString("loc"));
+				
+				list.add(dto);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,6 +177,7 @@ public class DeptDao {
 				dto.setDname(rs.getString("dname"));
 				dto.setLoc(rs.getString("loc"));
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

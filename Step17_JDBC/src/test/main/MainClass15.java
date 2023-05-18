@@ -12,9 +12,9 @@ public class MainClass15 {
 		
 //		MemberDto dto = new MemberDto(num);
 		
-		new MemberDao().delete(dto);
+		new MemberDao().delete(num);
 		
-		boolean isSuccess = new MemberDao().delete(dto);
+		boolean isSuccess = new MemberDao().delete(num);
 		if(isSuccess) {
 			System.out.println("삭제 완료");
 		}
